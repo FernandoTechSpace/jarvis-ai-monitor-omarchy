@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "fernando.jarvis-ai-monitor",
+  "name": "Jarvis AI Monitor",
+  "version": "0.1.0",
+  "author": "Fernando",
+  "description": "Which AI agents are on this machine, what they connect to, what they may do, and what they did last",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Jarvis AI Monitor",
+    "description": "AI agents on this machine: sessions, connections, permissions and last action",
+    "category": "AI",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": { "interval": 5000 },
+    "schema": [
+      { "key": "interval", "type": "number", "label": "Refresh interval (ms)" }
+    ]
+  }
+}
