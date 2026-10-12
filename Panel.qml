@@ -55,7 +55,7 @@ Panel {
     centerOnBar: true
     focusTarget: keyCatcher
     contentWidth: panel.fittedContentWidth(Style.space(820))
-    contentHeight: panel.fittedContentHeight(Style.space(540))
+    contentHeight: panel.fittedContentHeight(Style.space(590))
 
     PanelKeyCatcher {
       id: keyCatcher
@@ -70,6 +70,49 @@ Panel {
       onTextKey: function(t) {
         if (t === "r" || t === "R") { if (root.collector) root.collector.refresh() }
         else if (t >= "1" && t <= "9") root.select(Number(t) - 1)
+      }
+
+      Item {
+        id: header
+        width: parent.width
+        height: headerTitle.implicitHeight + Style.space(14)
+
+        JarvisIcon {
+          id: headerIcon
+          anchors.verticalCenter: headerTitle.verticalCenter
+          iconSize: Style.font.display
+          color: root.fg
+          spinning: root.hostWidget ? root.hostWidget.busy === true : false
+        }
+
+        Text {
+          id: headerTitle
+          anchors.left: headerIcon.right
+          anchors.leftMargin: Style.space(10)
+          text: "Jarvis AI Monitor"
+          textFormat: Text.PlainText
+          color: root.fg
+          font.family: root.fontFamily
+          font.pixelSize: Style.font.display
+          font.bold: true
+        }
+
+        Text {
+          anchors.right: parent.right
+          anchors.verticalCenter: headerTitle.verticalCenter
+          text: Model.plural(root.agents.length, "agent") + "  ·  "
+            + Model.plural(Model.runningCount(root.agents), "session") + " running"
+          textFormat: Text.PlainText
+          color: root.dim
+          font.family: root.fontFamily
+          font.pixelSize: Style.font.bodySmall
+        }
+
+        PanelSeparator {
+          anchors.bottom: parent.bottom
+          width: parent.width
+          foreground: root.fg
+        }
       }
 
       Text {
@@ -87,7 +130,8 @@ Panel {
         id: sidebar
         visible: root.agents.length > 0
         width: Style.space(230)
-        anchors.top: parent.top
+        anchors.top: header.bottom
+        anchors.topMargin: Style.space(12)
         anchors.bottom: hint.top
         anchors.bottomMargin: Style.space(8)
         spacing: Style.space(6)
@@ -153,7 +197,8 @@ Panel {
         anchors.left: sidebar.right
         anchors.leftMargin: Style.space(16)
         anchors.right: parent.right
-        anchors.top: parent.top
+        anchors.top: header.bottom
+        anchors.topMargin: Style.space(12)
         anchors.bottom: hint.top
         anchors.bottomMargin: Style.space(8)
         contentWidth: width
@@ -172,7 +217,7 @@ Panel {
             textFormat: Text.PlainText
             color: root.fg
             font.family: root.fontFamily
-            font.pixelSize: Style.font.display
+            font.pixelSize: Style.font.title
             font.bold: true
           }
 
