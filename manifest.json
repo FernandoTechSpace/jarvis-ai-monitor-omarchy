@@ -4,7 +4,7 @@
   "name": "Jarvis AI Monitor",
   "version": "0.1.0",
   "author": "Fernando",
-  "description": "Which AI agents are on this machine, what they connect to, what they may do, and what they did last",
+  "description": "AI observability for the Omarchy bar: which AI agents are on this machine, what they connect to, what they may do, and what they did last",
   "kinds": [
     "bar-widget"
   ],
@@ -13,7 +13,7 @@
   },
   "barWidget": {
     "displayName": "Jarvis AI Monitor",
-    "description": "AI agents on this machine: sessions, connections, permissions and last action",
+    "description": "AI observability: agents on this machine, their sessions, connections, permissions and last action",
     "category": "AI",
     "allowMultiple": false,
     "defaultSection": "right",

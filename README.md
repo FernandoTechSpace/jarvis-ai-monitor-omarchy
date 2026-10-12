@@ -1,8 +1,10 @@
 # Jarvis AI Monitor
 
-AI agent monitor plugin for the Omarchy shell. It puts one icon in the top bar and opens a panel that answers four questions about the AI coding agents on the machine: which ones are installed, what they are connected to, what they are allowed to do, and what they did last.
+AI observability plugin for the Omarchy shell: a local monitor for the AI coding agents on the machine. It puts one icon in the top bar and opens a panel that answers four questions about them: which ones are installed, what they are connected to, what they are allowed to do, and what they did last.
 
 No sudo or pkexec is required. The plugin itself opens no network connection.
+
+It is observability for AI agents kept on the machine itself: sessions, network connections, MCP servers, permissions and activity are read from local files and shown in the bar, with no telemetry, account or external service.
 
 ![Jarvis AI Monitor panel](preview.png)
 
