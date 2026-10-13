@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "fernando.jarvis-ai-monitor",
   "name": "Jarvis AI Monitor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Fernando",
   "description": "AI observability for the Omarchy bar: which AI agents are on this machine, what they connect to, what they may do, and what they did last",
   "kinds": [
