@@ -41,6 +41,9 @@ AGENTS = [
      "state": [home(".local", "share", "opencode", "storage"), home(".local", "share", "opencode", "log")]},
     {"id": "gemini", "name": "Gemini CLI", "bins": ["gemini"],
      "state": [home(".gemini", "tmp"), home(".gemini", "history")]},
+    {"id": "antigravity", "name": "Antigravity CLI", "bins": ["agy"],
+     "state": [home(".gemini", "antigravity-cli", "conversations"),
+               home(".gemini", "antigravity-cli", "history.jsonl")]},
     {"id": "cursor-agent", "name": "Cursor Agent", "bins": ["cursor-agent"],
      "state": [home(".cursor", "chats"), home(".cursor", "projects")]},
     {"id": "crush", "name": "Crush", "bins": ["crush"],
@@ -442,6 +445,32 @@ def collect_gemini(agent, sessions):
             session["mode"] = "yolo"
 
 
+def collect_antigravity(agent, sessions):
+    base = home(".gemini", "antigravity-cli")
+    cfg = read_json(os.path.join(base, "settings.json"))
+    agent["mcp"] = mcp_rows(read_json(home(".gemini", "config", "mcp_config.json")).get("mcpServers"), "user")
+    agent["rules"] = [{"effect": "allow", "rule": "trust folder", "scope": "project " + short_path(p)}
+                      for p in cfg.get("trustedWorkspaces") or []]
+    if cfg.get("model"):
+        agent["facts"] = [{"label": "Model", "value": str(cfg["model"])}]
+    for session in sessions:
+        argv = session["argv"]
+        if "--dangerously-skip-permissions" in argv:
+            session["mode"] = "skip-permissions"
+        elif "--mode" in argv[:-1]:
+            session["mode"] = argv[argv.index("--mode") + 1]
+
+    for line in reversed(tail_lines(os.path.join(base, "history.jsonl"))):
+        try:
+            entry = json.loads(line)
+        except ValueError:
+            continue
+        if isinstance(entry, dict) and entry.get("display") and entry.get("timestamp"):
+            return {"summary": "Prompt: " + clip(entry["display"]), "at": entry["timestamp"] / 1000,
+                    "cwd": short_path(entry.get("workspace"))}
+    return None
+
+
 def collect_cursor(agent, sessions):
     cfg = read_json(home(".cursor", "cli-config.json"))
     agent["mcp"] = mcp_rows(read_json(home(".cursor", "mcp.json")).get("mcpServers"), "user")
@@ -473,12 +502,13 @@ def collect_copilot(agent, sessions):
 
 COLLECTORS = {
     "claude": collect_claude, "codex": collect_codex, "opencode": collect_opencode,
-    "gemini": collect_gemini, "cursor-agent": collect_cursor, "crush": collect_crush,
+    "gemini": collect_gemini, "antigravity": collect_antigravity, "cursor-agent": collect_cursor, "crush": collect_crush,
     "copilot": collect_copilot,
 }
 
 # Modes where the agent acts without asking first.
-UNATTENDED = ("bypassPermissions", "danger-full-access", "yolo", "force", "allow-all-tools", "full-auto")
+UNATTENDED = ("bypassPermissions", "danger-full-access", "yolo", "force", "allow-all-tools", "full-auto",
+              "skip-permissions")
 
 
 def main():

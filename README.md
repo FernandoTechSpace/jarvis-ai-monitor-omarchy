@@ -32,6 +32,7 @@ Agents detected:
 | Codex | `codex` | approval and sandbox policy, trusted projects, MCP, last thread |
 | opencode | `opencode` | permission config, MCP, last activity time |
 | Gemini CLI | `gemini` | allowed and excluded tools, MCP, last activity time |
+| Antigravity CLI | `agy` | trusted workspaces, model, MCP, last prompt |
 | Cursor Agent | `cursor-agent` | allow and deny rules, MCP, last activity time |
 | Crush | `crush` | allowed tools, MCP, last activity time |
 | GitHub Copilot CLI | `copilot` | trusted folders, MCP, last activity time |
@@ -80,6 +81,7 @@ Read on every interval (default 5 seconds, 2 seconds while the panel is open):
 - Codex: `~/.codex/config.toml`, `~/.codex/state_5.sqlite` (read-only) and the tail of the last thread's rollout file
 - opencode: `~/.config/opencode/opencode.json`
 - Gemini CLI: `~/.gemini/settings.json`
+- Antigravity CLI: `~/.gemini/antigravity-cli/settings.json`, `~/.gemini/config/mcp_config.json` and the tail of `~/.gemini/antigravity-cli/history.jsonl`
 - Cursor Agent: `~/.cursor/cli-config.json`, `~/.cursor/mcp.json`
 - Crush: `~/.config/crush/crush.json`
 - GitHub Copilot CLI: `~/.copilot/config.json`, `~/.copilot/mcp-config.json`
